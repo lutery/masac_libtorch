@@ -42,7 +42,7 @@ int main()
 
     // Training loop.
     const uint n_iter = 2500;
-    const uint n_epochs = 30;
+    const uint n_epochs = 100;
     const uint batch_size = 512;
     const uint mini_batch_size = 128;
 
@@ -55,7 +55,7 @@ int main()
         csv << ",reward" << i;
     csv << ",done,status\n";
 
-    // 每个 epoch 的 reward汇总
+    // reward per epoch
     std::ofstream epoch_txt("../data/ma_epoch_rewards.txt",std::ios::out | std::ios::trunc);
     epoch_txt << "epoch";
     for (int i = 0; i < numberOfAgents; ++i)
@@ -106,7 +106,6 @@ int main()
             // 5) Learn
             if (buffer.size() > batch_size)
             {
-                // std::cout<<"train step now "<<std::endl;
                 masac.trainStep(buffer, mini_batch_size);
             }
             // 6) Episode termination handling
@@ -146,12 +145,12 @@ int main()
         }
         env.reset();
 
-        // 记录每个 agent 的 reward
+        // reward logging
         epoch_txt.open("../data/ma_epoch_rewards.txt",std::ios::app);
         epoch_txt << epoch;
         for (int i = 0; i < numberOfAgents; ++i)
             epoch_txt << " " << reward_sum_per_agent[i];
-        epoch_txt << " " << reward_sum_all << "\n";
+        epoch_txt << " " << averageRewardEpoch << "\n";
         epoch_txt.close();
     }
 

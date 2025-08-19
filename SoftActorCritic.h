@@ -90,10 +90,6 @@ public:
         torch::NoGradGuard no_grad;
         soft_update(critic1, target1);
         soft_update(critic2, target2);
-        // std::cout << "actor_loss: " << actor_loss.item<double>()
-        //   << ", critic_loss: " << critic_loss.item<double>()
-        //   << ", avg_q: " << q_pred.mean().item<double>()
-        //   << ", logp: " << logp_pred.mean().item<double>() << std::endl;
     }
 
     // Optionally: save/load model weights

@@ -1,5 +1,4 @@
 /Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles/train_sac.dir
-/Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles/test_sac.dir
 /Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles/force_headers_indexing.dir
 /Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles/edit_cache.dir
 /Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles/rebuild_cache.dir

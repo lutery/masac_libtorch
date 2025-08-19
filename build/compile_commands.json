@@ -10,11 +10,5 @@
   "command": "/usr/bin/c++ -DUSE_C10D_GLOO -DUSE_DISTRIBUTED -DUSE_RPC -DUSE_TENSORPIPE -I/opt/homebrew/include/eigen3 -I/Users/abc/Desktop/test/codetest/masac_libtorch -isystem /Users/abc/libtorch/libtorch/include -isystem /Users/abc/libtorch/libtorch/include/torch/csrc/api/include -g -O2 -std=gnu++17 -arch arm64 -o CMakeFiles/train_sac.dir/ReplayBuffer.cpp.o -c /Users/abc/Desktop/test/codetest/masac_libtorch/ReplayBuffer.cpp",
   "file": "/Users/abc/Desktop/test/codetest/masac_libtorch/ReplayBuffer.cpp",
   "output": "CMakeFiles/train_sac.dir/ReplayBuffer.cpp.o"
-},
-{
-  "directory": "/Users/abc/Desktop/test/codetest/masac_libtorch/build",
-  "command": "/usr/bin/c++ -DUSE_C10D_GLOO -DUSE_DISTRIBUTED -DUSE_RPC -DUSE_TENSORPIPE -I/opt/homebrew/include/eigen3 -I/Users/abc/Desktop/test/codetest/masac_libtorch -isystem /Users/abc/libtorch/libtorch/include -isystem /Users/abc/libtorch/libtorch/include/torch/csrc/api/include -g -O2 -std=gnu++17 -arch arm64 -o CMakeFiles/test_sac.dir/TestSAC.cpp.o -c /Users/abc/Desktop/test/codetest/masac_libtorch/TestSAC.cpp",
-  "file": "/Users/abc/Desktop/test/codetest/masac_libtorch/TestSAC.cpp",
-  "output": "CMakeFiles/test_sac.dir/TestSAC.cpp.o"
 }
 ]

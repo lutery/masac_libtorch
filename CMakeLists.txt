@@ -29,10 +29,6 @@ add_executable(train_sac TrainSAC.cpp ReplayBuffer.cpp)
 target_link_libraries(train_sac ${TORCH_LIBRARIES})
 target_include_directories(train_sac PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Executable: SAC testing
-add_executable(test_sac TestSAC.cpp)
-target_link_libraries(test_sac ${TORCH_LIBRARIES})
-target_include_directories(test_sac PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Dummy target for header indexing in IDEs
 add_custom_target(force_headers_indexing SOURCES

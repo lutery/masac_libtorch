@@ -1,12 +1,56 @@
-# SAC Pytorch C++
+# Multi-Agent SAC (MASAC) LibTorch Implementation
 
-This is an implementation of the [Soft Actor-Critic algorithm](https://doi.org/10.48550/arXiv.1801.01290) for the C++ API of Pytorch. It uses a simple `TestEnvironment` to test the algorithm. Below is a small visualization of the environment, the algorithm is tested in. 
-<br>
+This is an implementation of Multi-Agent Soft Actor-Critic (MASAC) algorithm using the C++ API of PyTorch (LibTorch). The implementation follows the Centralized Training with Decentralized Execution (CTDE) paradigm, where each agent has its own actor and critic networks, but training uses global state information.
+
+## Features
+
+- **Multi-Agent SAC**: Independent actor-critic networks for each agent
+- **Centralized Training**: Critics use global state and joint actions
+- **Decentralized Execution**: Each agent acts based on local observations
+- **LibTorch Backend**: High-performance C++ implementation
+- **Cooperative Environment**: Simple multi-agent navigation task
+
+## Environment
+
+The multi-agent environment features:
+- 3 agents navigating in a 2D space
+- Each agent has individual goals to reach
+- Rewards based on distance reduction and goal achievement
+- Shared termination conditions
+- Wait for others when arrived
+
 <figure>
-  <p align="center"><img src="img/test_mode_1.gif" width="50%" height="50%" hspace="0"></p>
- <figcaption style="text-align:center;">Fig. 1: The agent in testing mode.</figcaption>
+  <p align="center"><img src="img/ma_50.gif" width="90%" height="90%" hspace="0"></p>
+ <figcaption style="text-align:center;">Fig. 1: The agent in training mode (epoch = 50)</figcaption>
 </figure>
-<br><br>
+
+
+## Project Structure
+
+```
+masac_libtorch/
+├── Models.h                    # Actor and Critic network definitions
+├── MultiSoftActorCritic.h      # MASAC algorithm implementation
+├── MultiAgentEnvironment.h     # Multi-agent environment
+├── ReplayBuffer.cpp            # Experience replay buffer
+├── TrainSAC.cpp                # Main training script
+├── plot_reward.py              # Reward visualization script
+└── data/                       # Training logs and results
+    ├── ma_epoch_rewards.txt    # Per-epoch reward statistics
+    └── ma_independent_q.csv    # Detailed training logs
+└── img                         # Store figures
+```
+## Network Architecture
+
+#### Actor Network
+```
+Input (local_obs_dim) → FC(64) → ReLU → FC(64) → ReLU → [Mean, LogStd] → Tanh
+```
+
+#### Critic Network
+```
+Input (global_state + joint_action) → FC(64) → ReLU → FC(64) → ReLU → Q-value
+```
 
 ## Build
 You first need to install PyTorch. For a clean installation from Anaconda, checkout this short [tutorial](https://gist.github.com/mhubii/1c1049fb5043b8be262259efac4b89d5), or this [tutorial](https://pytorch.org/cppdocs/installing.html), to only install the binaries.
@@ -18,6 +62,7 @@ cd build
 cmake ..
 make
 ```
+Please note that you may need to modify the paths to **libtorch** and **eigen3** as well as the type of compiler.
 
 ## Run
 Run the executable with
@@ -25,38 +70,51 @@ Run the executable with
 cd build
 ./train_sac
 ```
-To plot the results, run
-```shell
-cd ..
-python plot.py --online_view --csv_file data/data.csv --epochs 1 10
-```
-It should produce something like shown below.
-<br>
-<figure>
-  <p align="center"><img src="img/epoch_1.gif" width="50%" height="50%" hspace="0"><img src="img/epoch_10.gif" width="50%" height="50%" hspace="0"></p>
-  <figcaption>Fig. 2: From left to right, the agent for successive epochs in training mode as it takes actions in the environment to reach the goal. </figcaption>
-</figure>
-<br><br>
+
 
 The algorithm can also be used in test mode, once trained. Therefore, run
 ```shell
 cd build
 ./test_sac
 ```
+
+## Output Files
+
+- `data/ma_epoch_rewards.txt`: Per-epoch reward statistics for each agent and total
+- `data/ma_independent_q.csv`: Detailed step-by-step training logs
+- `masac_rewards_split.png`: Generated reward visualization plots
+
+## Visualization
 To plot the results, run
 ```shell
-cd ..
-python plot.py --online_view --csv_file data/data_test.csv --epochs 1
+python multiplot.py --csv_file data/ma_independent_q.csv --epochs 50 --output_path img --output_file ma --fps 15
 ```
-## Visualization
-The results are saved to `data/data.csv` and can be visualized by running `python plot.py`. Run
+It should produce something like shown below.
+
+<figure>
+  <p align="center"><img src="img/ma_1.gif" width="50%" height="50%" hspace="0"><img src="img/ma_50.gif" width="50%" height="50%" hspace="0"></p>
+  <figcaption>Fig. 2: From left to right, the agent for successive epochs in training mode as it takes actions in the environment to reach the goal. </figcaption>
+</figure>
+
+
+To plot the rewards, run
 ```shell
-python plot.py --help
+python plot_reward.py
 ```
-for help.
 
-## Note
-You may also refer to the implementations based on the PPO (Proximal Policy Optimization) and TD3 (Twin Delayed Deep Deterministic Policy Gradient) algorithms, which are available in the following repositories:
+<figure>
+  <p align="center"><img src="./img/masac_rewards_split.png" width="1000%" height="90%" hspace="0"></p>
+ <figcaption style="text-align:center;">Fig. 3: Training reward curves showing individual agent performance (left) and total team reward (right)</figcaption>
+</figure>
 
-**PPO** : https://github.com/mhubii/ppo_libtorch
-**TD3** : https://github.com/hrshl212/TD3-libtorch
+
+## References
+- [Soft Actor-Critic](https://arxiv.org/abs/1801.01290) - Original SAC paper
+- [Multi-Agent DDPG](https://arxiv.org/abs/1706.02275) - MADDPG foundation
+- [PyTorch C++ API](https://pytorch.org/cppdocs/) - LibTorch documentation
+
+## Related Implementations
+
+- **Single-Agent SAC**: https://github.com/YiOuO/sac_libtorch
+- **PPO LibTorch**: https://github.com/mhubii/ppo_libtorch
+- **TD3 LibTorch**: https://github.com/hrshl212/TD3-libtorch

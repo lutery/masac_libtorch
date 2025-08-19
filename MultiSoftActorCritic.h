@@ -142,8 +142,13 @@ public:
 
         // Sum of next log-probabilities across agents (appears in target)
         auto sumNextLogProb = torch::zeros_like(nextLogProbParts[0]);
-        for (auto &lp : nextLogProbParts)
-            sumNextLogProb = sumNextLogProb + lp;
+        // for (auto &lp : nextLogProbParts)
+        //     sumNextLogProb = sumNextLogProb + lp;
+
+        for (int i = 0; i < numberOfAgents_; ++i)
+        {
+            sumNextLogProb = sumNextLogProb + nextLogProbParts[i] * temperatures_[i];
+        }
 
         // ---- Per-agent critic updates (independent centralized Q for each agent) ----
         for (int i = 0; i < numberOfAgents_; ++i)
@@ -159,7 +164,7 @@ public:
                 // R[:, i] -> shape [B, 1]
                 auto rewardColumn_i = batchReward.index({torch::indexing::Slice(), i}).view({-1, 1});
                 // auto rewardSum = batchReward.sum(1, /*keepdim=*/true);
-                targetQ_i = rewardColumn_i + gamma_ * (1.0 - batchDone) * (minQNext - temperatures_[i] * sumNextLogProb);
+                targetQ_i = rewardColumn_i + gamma_ * (1.0 - batchDone) * (minQNext - sumNextLogProb);
             }
 
             auto q1 = critics1_[i]->forward(batchState, batchAction);

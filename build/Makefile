@@ -130,19 +130,6 @@ train_sac/fast:
 .PHONY : train_sac/fast
 
 #=============================================================================
-# Target rules for targets named test_sac
-
-# Build rule for target.
-test_sac: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_sac
-.PHONY : test_sac
-
-# fast build rule for target.
-test_sac/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sac.dir/build.make CMakeFiles/test_sac.dir/build
-.PHONY : test_sac/fast
-
-#=============================================================================
 # Target rules for targets named force_headers_indexing
 
 # Build rule for target.
@@ -179,30 +166,6 @@ ReplayBuffer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/train_sac.dir/build.make CMakeFiles/train_sac.dir/ReplayBuffer.cpp.s
 .PHONY : ReplayBuffer.cpp.s
 
-TestSAC.o: TestSAC.cpp.o
-.PHONY : TestSAC.o
-
-# target to build an object file
-TestSAC.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sac.dir/build.make CMakeFiles/test_sac.dir/TestSAC.cpp.o
-.PHONY : TestSAC.cpp.o
-
-TestSAC.i: TestSAC.cpp.i
-.PHONY : TestSAC.i
-
-# target to preprocess a source file
-TestSAC.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sac.dir/build.make CMakeFiles/test_sac.dir/TestSAC.cpp.i
-.PHONY : TestSAC.cpp.i
-
-TestSAC.s: TestSAC.cpp.s
-.PHONY : TestSAC.s
-
-# target to generate assembly for a file
-TestSAC.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sac.dir/build.make CMakeFiles/test_sac.dir/TestSAC.cpp.s
-.PHONY : TestSAC.cpp.s
-
 TrainSAC.o: TrainSAC.cpp.o
 .PHONY : TrainSAC.o
 
@@ -236,14 +199,10 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... force_headers_indexing"
-	@echo "... test_sac"
 	@echo "... train_sac"
 	@echo "... ReplayBuffer.o"
 	@echo "... ReplayBuffer.i"
 	@echo "... ReplayBuffer.s"
-	@echo "... TestSAC.o"
-	@echo "... TestSAC.i"
-	@echo "... TestSAC.s"
 	@echo "... TrainSAC.o"
 	@echo "... TrainSAC.i"
 	@echo "... TrainSAC.s"

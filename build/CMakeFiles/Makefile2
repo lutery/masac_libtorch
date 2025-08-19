@@ -64,12 +64,10 @@ CMAKE_BINARY_DIR = /Users/abc/Desktop/test/codetest/masac_libtorch/build
 
 # The main recursive "all" target.
 all: CMakeFiles/train_sac.dir/all
-all: CMakeFiles/test_sac.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
 codegen: CMakeFiles/train_sac.dir/codegen
-codegen: CMakeFiles/test_sac.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -78,7 +76,6 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/train_sac.dir/clean
-clean: CMakeFiles/test_sac.dir/clean
 clean: CMakeFiles/force_headers_indexing.dir/clean
 .PHONY : clean
 
@@ -89,7 +86,7 @@ clean: CMakeFiles/force_headers_indexing.dir/clean
 CMakeFiles/train_sac.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/train_sac.dir/build.make CMakeFiles/train_sac.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/train_sac.dir/build.make CMakeFiles/train_sac.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles --progress-num=3,4,5 "Built target train_sac"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles --progress-num=1,2,3 "Built target train_sac"
 .PHONY : CMakeFiles/train_sac.dir/all
 
 # Build rule for subdir invocation for target.
@@ -106,45 +103,13 @@ train_sac: CMakeFiles/train_sac.dir/rule
 # codegen rule for target.
 CMakeFiles/train_sac.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/train_sac.dir/build.make CMakeFiles/train_sac.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles --progress-num=3,4,5 "Finished codegen for target train_sac"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles --progress-num=1,2,3 "Finished codegen for target train_sac"
 .PHONY : CMakeFiles/train_sac.dir/codegen
 
 # clean rule for target.
 CMakeFiles/train_sac.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/train_sac.dir/build.make CMakeFiles/train_sac.dir/clean
 .PHONY : CMakeFiles/train_sac.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_sac.dir
-
-# All Build rule for target.
-CMakeFiles/test_sac.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sac.dir/build.make CMakeFiles/test_sac.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sac.dir/build.make CMakeFiles/test_sac.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles --progress-num=1,2 "Built target test_sac"
-.PHONY : CMakeFiles/test_sac.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_sac.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_sac.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_sac.dir/rule
-
-# Convenience name for target.
-test_sac: CMakeFiles/test_sac.dir/rule
-.PHONY : test_sac
-
-# codegen rule for target.
-CMakeFiles/test_sac.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sac.dir/build.make CMakeFiles/test_sac.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/abc/Desktop/test/codetest/masac_libtorch/build/CMakeFiles --progress-num=1,2 "Finished codegen for target test_sac"
-.PHONY : CMakeFiles/test_sac.dir/codegen
-
-# clean rule for target.
-CMakeFiles/test_sac.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sac.dir/build.make CMakeFiles/test_sac.dir/clean
-.PHONY : CMakeFiles/test_sac.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/force_headers_indexing.dir

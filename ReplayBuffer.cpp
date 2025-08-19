@@ -37,7 +37,7 @@ ReplayBuffer::sample(size_t batch_size)
     std::vector<torch::Tensor> done_batch;
 
     for (size_t i = 0; i < batch_size; ++i) {
-        int index = rand() % states_.size();  // 随机索引
+        int index = rand() % states_.size();  // random index
 
         state_batch.push_back(states_[index]);
         action_batch.push_back(actions_[index]);
