@@ -20,7 +20,7 @@ The multi-agent environment features:
 - Wait for others when arrived
 
 <figure>
-  <p align="center"><img src="img/ma_50.gif" width="90%" height="90%" hspace="0"></p>
+  <p align="center"><img src="img/ma_50.gif" width="80%" height="80%" hspace="0"></p>
  <figcaption style="text-align:center;">Fig. 1: The agent in training mode (epoch = 50)</figcaption>
 </figure>
 
@@ -69,13 +69,6 @@ Run the executable with
 ```shell
 cd build
 ./train_sac
-```
-
-
-The algorithm can also be used in test mode, once trained. Therefore, run
-```shell
-cd build
-./test_sac
 ```
 
 ## Output Files
