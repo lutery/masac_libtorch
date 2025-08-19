@@ -8,7 +8,7 @@ This is an implementation of Multi-Agent Soft Actor-Critic (MASAC) algorithm usi
 - **Centralized Training**: Critics use global state and joint actions
 - **Decentralized Execution**: Each agent acts based on local observations
 - **LibTorch Backend**: High-performance C++ implementation
-- **Cooperative Environment**: Simple multi-agent navigation task
+- **Customize a simple environment**：No third-party env libraries
 
 ## Environment
 
