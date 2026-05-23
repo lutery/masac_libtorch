@@ -33,7 +33,8 @@ public:
           tau_(targetUpdateTau),
           targetEntropy_(-static_cast<double>(actionDimension)) // standard SAC heuristic
     {
-        // Per-agent actor and temperature
+        // Per-agent actor and temperature 这里是给智能体/优化器提前预约空间
+        // 看起来使用vector来存储这些信息
         actors_.reserve(numberOfAgents_);
         actorOptimizers_.reserve(numberOfAgents_);
         logAlphas_.reserve(numberOfAgents_);
@@ -43,16 +44,18 @@ public:
         for (int i = 0; i < numberOfAgents_; ++i)
         {
             actors_.emplace_back(Actor(localObservationDimension_, actionDimension_));
-            actors_.back()->to(torch::kF64);
-            actorOptimizers_.emplace_back(actors_.back()->parameters(), learningRate);
+            actors_.back()->to(torch::kF64); // 设置浮点数
+            actorOptimizers_.emplace_back(actors_.back()->parameters(), learningRate); // 这里应该是一种c++对象构造的方法，直接传入参数隐式构造优化器
 
+            // todo 这个应该是可学习的参数，具体用在哪里需要排查洗
             auto logAlpha = torch::log(torch::tensor({initialAlpha}, torch::kF64)).set_requires_grad(true);
             logAlphas_.push_back(logAlpha);
             alphaOptimizers_.emplace_back(std::vector<torch::Tensor>{logAlphas_.back()}, alphaLearningRate);
-            temperatures_[i] = initialAlpha;
+            temperatures_[i] = initialAlpha; // todo 这个用在哪里
         }
 
-        // Per-agent twin critics (centralized inputs)
+        // Per-agent twin critics (centralized inputs) 看起来有多少个环境智能体就有多少个评价网络
+        // 每个动作预测器对应两个Q值评价器
         critics1_.reserve(numberOfAgents_);
         critics2_.reserve(numberOfAgents_);
         targetCritics1_.reserve(numberOfAgents_);
@@ -62,7 +65,7 @@ public:
 
         for (int i = 0; i < numberOfAgents_; ++i)
         {
-            critics1_.emplace_back(Critic(globalStateDimension_, jointActionDimension_));
+            critics1_.emplace_back(Critic(globalStateDimension_, jointActionDimension_)); // 评价网络是全局观察
             critics2_.emplace_back(Critic(globalStateDimension_, jointActionDimension_));
             targetCritics1_.emplace_back(Critic(globalStateDimension_, jointActionDimension_));
             targetCritics2_.emplace_back(Critic(globalStateDimension_, jointActionDimension_));
@@ -227,21 +230,21 @@ public:
     }
 
 private:
-    int numberOfAgents_;
-    int localObservationDimension_;
-    int actionDimension_;
-    int globalStateDimension_;
-    int jointActionDimension_;
-
-    double gamma_;
-    double tau_;
-    double targetEntropy_;
+    int numberOfAgents_; // 智能体的个数
+    int localObservationDimension_; // 观察空间的维度
+    int actionDimension_; // 动作空间的维度
+    int globalStateDimension_; // 全局观察空间的维度
+    int jointActionDimension_; // 全局动作空间的维度
+    
+    double gamma_; // 这个应该是计算bellman Q值的比例
+    double tau_;    // 这几个应该是将参数同步到目标网络时的权重
+    double targetEntropy_; // 目标动作熵
 
     // Per-agent policies and temperatures
-    std::vector<Actor> actors_;
+    std::vector<Actor> actors_; // 动作预测智能体，每个仅观察局部obs和动作
     std::vector<torch::optim::Adam> actorOptimizers_;
 
-    std::vector<torch::Tensor> logAlphas_;
+    std::vector<torch::Tensor> logAlphas_; // 每个智能体对应的alhpas参数
     std::vector<double> temperatures_;
     std::vector<torch::optim::Adam> alphaOptimizers_;
 

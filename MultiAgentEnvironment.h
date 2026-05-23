@@ -19,6 +19,8 @@ enum MAStatus
  * - Each step applies a bounded displacement proportional to the action.
  * - Rewards are PER-AGENT (vector): distance reduction bonus + terminal bonus/penalty.
  * - Done is shared: episode ends if all agents reach their goals OR any agent goes out-of-bounds.
+ * 
+ * 核心任务：3 个智能体在 2D 平面上移动，各自到达自己的目标点。所有智能体到达目标才算成功（团队胜利），任一智能体越界（距离原点 >10）则团队失败。
  */
 class MultiAgentEnvironment
 {
@@ -35,12 +37,12 @@ public:
     }
 
 private:
-    int numberOfAgents_;
+    int numberOfAgents_; // 智能体的个数
     int statedim_ = 4; // [pos_x, pos_y, goal_x, goal_y]
-    std::vector<uint8_t> reached_; double reach_radius_=0.6, leave_radius_=0.8;
+    std::vector<uint8_t> reached_; double reach_radius_=0.6, leave_radius_=0.8; // todo
 public:
-    std::vector<Eigen::Vector2d> positions_;
-    std::vector<Eigen::Vector2d> goals_;
+    std::vector<Eigen::Vector2d> positions_; // todo 这个看起来是智能体的位置
+    std::vector<Eigen::Vector2d> goals_; // todo 这个看起来是智能体的要达到的目标
 
     torch::Tensor getLocalObservation(int agentIndex)
     {

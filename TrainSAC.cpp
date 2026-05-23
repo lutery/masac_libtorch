@@ -19,6 +19,7 @@ int main()
     // ===== Environment =====
     const int numberOfAgents = 3;
     std::vector<Eigen::Vector2d> initialGoals(numberOfAgents);
+    // 看起来是给智能体初始一个方向
     for (int i = 0; i < numberOfAgents; ++i)
     {
         initialGoals[i](0) = static_cast<double>(uniformInt(randomEngine));
@@ -42,12 +43,12 @@ int main()
 
     // Training loop.
     const uint n_iter = 2500;
-    const uint n_epochs = 100;
+    const uint n_epochs = 100; // 训练的论述
     const uint batch_size = 512;
     const uint mini_batch_size = 128;
 
-    // ===== Logging =====
-    std::ofstream csv("../data/ma_independent_q.csv");
+    // ===== Logging ===== 将日志写入到文件
+    std::ofstream csv("../data/ma_independent_q.csv"); 
     csv << "epoch";
     for (int i = 0; i < numberOfAgents; ++i)
         csv << ",pos_x" << i << ",pos_y" << i << ",goal_x" << i << ",goal_y" << i;
@@ -55,7 +56,7 @@ int main()
         csv << ",reward" << i;
     csv << ",done,status\n";
 
-    // reward per epoch
+    // reward per epoch 将奖励写入保存到文件
     std::ofstream epoch_txt("../data/ma_epoch_rewards.txt",std::ios::out | std::ios::trunc);
     epoch_txt << "epoch";
     for (int i = 0; i < numberOfAgents; ++i)
@@ -63,22 +64,23 @@ int main()
     epoch_txt << " reward_sum_all\n";
     epoch_txt.close(); 
 
-    double bestAverageReward = -1e18;
+    double bestAverageReward = -1e18; // 这个应该是记录最好的平均奖励是多少
 
     // ===== Training Loop =====
     for (auto epoch = 0; epoch < n_epochs; ++epoch)
     {
         double reward_sum_all = 0.0;
-        std::vector<double> reward_sum_per_agent(numberOfAgents, 0.0);
+        std::vector<double> reward_sum_per_agent(numberOfAgents, 0.0); // 为每一个agent创建训练步数内的奖励总和，初始化为0.0
 
         printf("Epoch %u/%u\n", epoch + 1, n_epochs);
-        double averageRewardEpoch = 0.0;
+        double averageRewardEpoch = 0.0; // 这里存储一轮步数内的平均奖励
 
         for (uint64_t t = 0; t < n_iter; ++t)
         {
             //- 1) Prepare globalstate and per-agent local observations
-            auto globalSate = env.getGlobalState();
-
+            auto globalSate = env.getGlobalState(); // 获取多智能体游戏的全局状态
+            
+            // 获取每一个智能体的局部观察
             std::vector<torch::Tensor> localObservations(numberOfAgents);
             for (int i = 0; i < numberOfAgents; i++)
             {

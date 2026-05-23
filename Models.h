@@ -6,7 +6,7 @@
 struct ActorImpl : public torch::nn::Module
 {
     torch::nn::Linear fc1{nullptr}, fc2{nullptr}, mean{nullptr}, log_std{nullptr};
-    ActorImpl(int64_t input_dim, int64_t output_dim) {
+    ActorImpl(int64_t input_dim, int64_t output_dim) { // 输入的一个是局部观察的维度，一个是局部智能体的动作维度
         fc1 = register_module("fc1", torch::nn::Linear(input_dim, 16));
         fc2 = register_module("fc2", torch::nn::Linear(16, 32));
         mean = register_module("mean", torch::nn::Linear(32, output_dim));
@@ -34,7 +34,7 @@ struct ActorImpl : public torch::nn::Module
         return {action, log_prob};
     }
 };
-TORCH_MODULE(Actor);
+TORCH_MODULE(Actor); // TORCH_MODULE(Actor) 是 LibTorch 提供的一个宏，它在编译期自动生成以下代码：
 
 // ========== Critic Q-Network ========== //
 struct CriticImpl : torch::nn::Module {
