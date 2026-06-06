@@ -28,6 +28,6 @@ public:
 
 
 private:
-    size_t capacity_;
+    size_t capacity_; // 缓冲区的容量
     std::deque<torch::Tensor> states_, actions_, rewards_, next_states_, dones_;
 };

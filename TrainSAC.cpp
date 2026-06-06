@@ -69,7 +69,7 @@ int main()
     // ===== Training Loop =====
     for (auto epoch = 0; epoch < n_epochs; ++epoch)
     {
-        double reward_sum_all = 0.0;
+        double reward_sum_all = 0.0; // 存储所有智能体在一轮训练步数内的奖励总和
         std::vector<double> reward_sum_per_agent(numberOfAgents, 0.0); // 为每一个agent创建训练步数内的奖励总和，初始化为0.0
 
         printf("Epoch %u/%u\n", epoch + 1, n_epochs);
@@ -88,14 +88,17 @@ int main()
             }
 
             //- 2) Sample joint action from current policy (stochastic)
+            // 根据每一个智能体的局部观察，然后将它们输入到对应的actor中，得到每一个智能体的动作，然后将这些动作拼接成一个联合动作
             auto jointAction = masac.act(localObservations); // [1, 2*N]
 
             // 3) Interact with the environment
             auto [nextGlobalState, rewardVector, doneFlag, status] = env.Step(jointAction);
 
             // 4) Push transition into replay buffer note: rewardVector has shape [1, N]
+            // 将当前的全局状态、联合动作、奖励向量、下一个全局状态和done标志存储到经验回放缓冲区中
             buffer.add(globalSate, jointAction, rewardVector, nextGlobalState, doneFlag);
-            // Accumulate epoch-average reward (mean of per-agent rewards here)
+            // Accumulate epoch-average reward (mean of per-agent rewards here) 
+            // 这里是计算一轮训练步数内的平均奖励，rewardVector.mean() 是计算当前步数内所有智能体的平均奖励，然后除以总的训练步数，得到每一步对平均奖励的贡献，最后累加到 averageRewardEpoch 中。
             averageRewardEpoch += rewardVector.mean().item<double>() / static_cast<double>(n_epochs);
             // save reward to csv file
             for (int i = 0; i < numberOfAgents; ++i)
@@ -106,7 +109,7 @@ int main()
             }
 
             // 5) Learn
-            if (buffer.size() > batch_size)
+            if (buffer.size() > batch_size) 
             {
                 masac.trainStep(buffer, mini_batch_size);
             }
